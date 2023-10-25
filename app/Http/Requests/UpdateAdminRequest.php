@@ -13,7 +13,7 @@ class UpdateAdminRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->id === $this->admin->user_id;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'no_hp' => 'nullable|regex:/^[0-9]{1,15}$/',
+            'username' => 'nullable|max:35',
+            'email' => 'nullable|email|max:35',
+            'password' => 'nullable|max:35',
+            'pin' => 'nullable|min:4|max:6',
         ];
     }
 }
