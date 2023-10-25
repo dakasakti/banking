@@ -13,7 +13,7 @@ class StoreApplicationRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,7 @@ class StoreApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|unique:applications,name|max:35',
         ];
     }
 }

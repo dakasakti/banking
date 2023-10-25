@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function index()
     {
         return view('aplikasi.index', [
-            'admin' => Admin::where('user_id', auth()->user()->id)->get(),
+            'admin' => Admin::where('user_id', auth()->user()->id)->latest()->get(),
         ]);
     }
 
@@ -30,8 +30,8 @@ class AdminController extends Controller
     public function create()
     {
         return view('aplikasi.create', [
-            'uuid' => Uuid::uuid4(),
-            'apps' => Application::all(),
+            'uuid' => Uuid::uuid4()->toString(),
+            'apps' => Application::where('status', true)->get(),
         ]);
     }
 
@@ -43,21 +43,12 @@ class AdminController extends Controller
      */
     public function store(StoreAdminRequest $request)
     {
-        $validatedData = $request->validate([
-            'invoice' => 'required|unique:admins|max:255',
-            'name_id' => 'required',
-            'no_hp' => 'required|max:12',
-            'username' => 'nullable|max:35',
-            'email' => 'required|max:35',
-            'password' => 'required|max:35',
-            'pin' => 'nullable|max:6',
-        ]);
+        $datas = $request->validated();
+        $datas['user_id'] = auth()->user()->id;
 
-        $validatedData['user_id'] = auth()->user()->id;
+        Admin::create($datas);
 
-        Admin::create($validatedData);
-
-        return redirect(route('admin.index'))->with('success', 'NEW DATA HAS BEEN ADDED!');
+        return to_route('admin.index')->with('success', 'NEW DATA HAS BEEN ADDED!');
     }
 
     /**
@@ -68,9 +59,8 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
-        if($admin->user->id !== auth()->user()->id)
-        {
-            abort(403);
+        if ($admin->user_id !== auth()->user()->id) {
+            return abort(403);
         }
 
         return view('aplikasi.show', compact('admin'));
@@ -84,14 +74,11 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        if($admin->user->id !== auth()->user()->id)
-        {
-            abort(403);
+        if ($admin->user_id !== auth()->user()->id) {
+            return abort(403);
         }
 
-        return view('aplikasi.edit', [
-            'admin' => $admin,
-        ]);
+        return view('aplikasi.edit', compact('admin'));
     }
 
     /**
@@ -103,27 +90,20 @@ class AdminController extends Controller
      */
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $rules = [
-            'name_id' => 'required',
-            'no_hp' => 'required|max:12',
-            'username' => 'nullable|max:35',
-            'email' => 'required|max:35',
-            'password' => 'required|max:35',
-            'pin' => 'nullable|max:6',
-        ];
+        $datas = $request->validated();
 
-        if($request->invoice != $admin->invoice)
-        {
-            $rules['invoice'] = 'required|unique:admins';
+        foreach ($datas as $key => $data) {
+            if ($data == null || $admin[$key] == $data) {
+                unset($datas[$key]);
+            }
         }
 
-        $validatedData = $request->validate($rules);
+        if (empty($datas)) {
+            return to_route('admin.index')->with(['success' => 'NO DATA HAS BEEN CHANGED!', 'type' => 'red']);
+        }
 
-        $validatedData['user_id'] = auth()->user()->id;
-
-        $admin->update($validatedData);
-
-        return redirect(route('admin.index'))->with('success', 'NEW DATA HAS BEEN EDITED!');
+        $admin->update($datas);
+        return to_route('admin.index')->with('success', 'NEW DATA HAS BEEN EDITED!');
     }
 
     /**
@@ -134,8 +114,7 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
-       Admin::destroy($admin->id);
-
-        return redirect(route('admin.index'))->with('success', 'NEW DATA HAS BEEN DELETED');
+        $admin->delete();
+        return to_route('admin.index')->with('success', 'NEW DATA HAS BEEN DELETED');
     }
 }

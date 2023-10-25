@@ -24,7 +24,8 @@ class UpdateApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'nullable|max:35',
+            'status' => 'numeric|in:1,0'
         ];
     }
 }

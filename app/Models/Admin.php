@@ -8,7 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'no_hp' => 'encrypted',
+        'username' => 'encrypted',
+        'email' => 'encrypted',
+        'password' => 'encrypted',
+        'pin' => 'encrypted',
+    ];
 
     public function user()
     {
