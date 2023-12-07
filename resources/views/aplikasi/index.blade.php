@@ -67,106 +67,108 @@
 </div>
 
 @if(count($admin) > 0)
-<table class="min-w-full">
-    <thead class="bg-gray-300 dark:bg-gray-700">
-        <tr>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+<div style="max-height: 400px; overflow-y: scroll">
+    <table class="min-w-full">
+        <thead class="bg-gray-300 dark:bg-gray-700">
+            <tr>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    NO.
+                </th>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    DATE
+                </th>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    NAMA
+                </th>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    EMAIL
+                </th>
+                <th
+                    scope="col"
+                    class="text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    ACTION
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($admin as $i => $data)
+            <tr
+                class="border-b odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:border-gray-600"
             >
-                NO.
-            </th>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                DATE
-            </th>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                NAMA
-            </th>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                EMAIL
-            </th>
-            <th
-                scope="col"
-                class="text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                ACTION
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($admin as $i => $data)
-        <tr
-            class="border-b odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:border-gray-600"
-        >
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                {{ $i + 1 }}
-            </td>
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                {{ $data->updated_at->format('d/m/Y H:i')}}
-            </td>
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                {{ $data->application->name }}
-            </td>
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-gray-400"
-            >
-                {{ $data->email }}
-            </td>
-            <td>
-                <ul class="lg:flex">
-                    <li class="my-2 lg:mr-2">
-                        <a href="{{ route('admin.show', $data->invoice) }}"
-                            ><button
-                                class="block text-white bg-green-500 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                type="button"
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    {{ $i + 1 }}
+                </td>
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    {{ $data->updated_at->format('d/m/Y H:i')}}
+                </td>
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    {{ $data->application->name }}
+                </td>
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-gray-400"
+                >
+                    {{ $data->email }}
+                </td>
+                <td>
+                    <ul class="lg:flex">
+                        <li class="my-2 lg:mr-2">
+                            <a href="{{ route('admin.show', $data->invoice) }}"
+                                ><button
+                                    class="block text-white bg-green-500 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="button"
+                                >
+                                    Detail
+                                </button></a
                             >
-                                Detail
-                            </button></a
-                        >
-                    </li>
-                    <li class="my-2 lg:mr-2">
-                        <a href="{{ route('admin.edit', $data->invoice) }}"
-                            ><button
-                                class="block text-white bg-blue-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                type="button"
+                        </li>
+                        <li class="my-2 lg:mr-2">
+                            <a href="{{ route('admin.edit', $data->invoice) }}"
+                                ><button
+                                    class="block text-white bg-blue-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="button"
+                                >
+                                    Edit
+                                </button></a
                             >
-                                Edit
-                            </button></a
-                        >
-                    </li>
-                    <li class="my-2 mr-2">
-                        <form
-                            action="{{ route('admin.destroy', $data->invoice) }}"
-                            method="POST"
-                        >
-                            @csrf @method('delete')
-                            <button
-                                class="block text-white bg-red-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                type="submit"
+                        </li>
+                        <li class="my-2 mr-2">
+                            <form
+                                action="{{ route('admin.destroy', $data->invoice) }}"
+                                method="POST"
                             >
-                                Delete
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                                @csrf @method('delete')
+                                <button
+                                    class="block text-white bg-red-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="submit"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 @endif @endsection

@@ -60,110 +60,112 @@ $type = session('type', 'green') @endphp
 </div>
 
 @if (count($apps) > 0)
-<table class="min-w-full">
-    <thead class="bg-gray-300 dark:bg-gray-700">
-        <tr>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                NO.
-            </th>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                DATE
-            </th>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                NAMA
-            </th>
-            <th
-                scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                STATUS
-            </th>
-            <th
-                scope="col"
-                class="text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-            >
-                ACTION
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($apps as $i => $data)
-        <tr
-            class="border-b odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:border-gray-600"
-        >
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                {{ $i + 1 }}
-            </td>
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                {{ $data->updated_at->format('d/m/Y H:s') }}
-            </td>
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                {{ $data->name }}
-            </td>
-            <td
-                class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-                @if($data->status)
-                <span
-                    class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                    >Active</span
+<div style="max-height: 400px; overflow-y: scroll">
+    <table class="min-w-full">
+        <thead class="bg-gray-300 dark:bg-gray-700">
+            <tr>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
                 >
-                @else
-                <span
-                    class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                    >Inactive</span
+                    NO.
+                </th>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
                 >
-                @endif
-            </td>
-            <td>
-                @can('admin')
-                <ul class="lg:flex">
-                    <li class="my-2 lg:mr-2">
-                        <a href="{{ route('application.edit', $data->id) }}"
-                            ><button
-                                class="block text-white bg-blue-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                type="button"
+                    DATE
+                </th>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    NAMA
+                </th>
+                <th
+                    scope="col"
+                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    STATUS
+                </th>
+                <th
+                    scope="col"
+                    class="text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+                >
+                    ACTION
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($apps as $i => $data)
+            <tr
+                class="border-b odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:border-gray-600"
+            >
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    {{ $i + 1 }}
+                </td>
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    {{ $data->updated_at->format('d/m/Y H:s') }}
+                </td>
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    {{ $data->name }}
+                </td>
+                <td
+                    class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                    @if($data->status)
+                    <span
+                        class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                        >Active</span
+                    >
+                    @else
+                    <span
+                        class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                        >Inactive</span
+                    >
+                    @endif
+                </td>
+                <td>
+                    @can('admin')
+                    <ul class="lg:flex">
+                        <li class="my-2 lg:mr-2">
+                            <a href="{{ route('application.edit', $data->id) }}"
+                                ><button
+                                    class="block text-white bg-blue-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="button"
+                                >
+                                    Edit
+                                </button></a
                             >
-                                Edit
-                            </button></a
-                        >
-                    </li>
-                    <li class="my-2 mr-2">
-                        <form
-                            action="{{ route('application.destroy', $data->id) }}"
-                            method="POST"
-                        >
-                            @csrf @method('delete')
-                            <button
-                                class="block text-white bg-red-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                type="submit"
+                        </li>
+                        <li class="my-2 mr-2">
+                            <form
+                                action="{{ route('application.destroy', $data->id) }}"
+                                method="POST"
                             >
-                                Delete
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-                @else
-                <p>403</p>
-                @endcan
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                                @csrf @method('delete')
+                                <button
+                                    class="block text-white bg-red-700 hover:bg-gray-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="submit"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                    @else
+                    <p>403</p>
+                    @endcan
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 @endif @endsection
